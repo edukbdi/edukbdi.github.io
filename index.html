@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KBDI — Komunitas Belajar Daring Indonesia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0d0f14;
+    --surface: #13161d;
+    --card: #181c25;
+    --border: #252a36;
+    --accent: #e87722;
+    --accent2: #5a8fc8;
+    --red: #c85a5a;
+    --green: #5ac87a;
+    --text: #e8e4dc;
+    --muted: #7a7f8e;
+    --hukum: #c8a45a;
+    --sosial: #5ac87a;
+    --sejarah: #c85a5a;
+    --pendidikan: #5a8fc8;
+    --astronomi: #a05ac8;
+    --ekonomi: #e8854a;
+    --fisika: #5ac8c0;
+    --biologi: #8cc85a;
+    --geografi: #5ab8c8;
+    --teknologi: #c85a9a;
+    --kesehatan: #c8c05a;
+  }
+
+  /* ── LIGHT MODE ── */
+  html.light {
+    --bg: #f5f2ec;
+    --surface: #ede9e0;
+    --card: #ffffff;
+    --border: #d8d2c4;
+    --accent: #d06010;
+    --accent2: #3a6fa8;
+    --red: #b83a3a;
+    --green: #3a9858;
+    --text: #1a1a1a;
+    --muted: #6a6a6a;
+    --hukum: #a07020;
+    --sosial: #2a8848;
+    --sejarah: #a03030;
+    --pendidikan: #2a5f98;
+    --astronomi: #7030a8;
+    --ekonomi: #c86020;
+    --fisika: #1a9890;
+    --biologi: #5a9830;
+    --geografi: #1a88a8;
+    --teknologi: #a82a7a;
+    --kesehatan: #989010;
+  }
+
+  html.light .card:hover { background: #f0ece4; }
+  html.light .hero-bg-text { color: rgba(216, 100, 20, 0.05); }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    transition: background 0.3s ease, color 0.3s ease;
+  }
+
+  /* ── NOISE TEXTURE ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.5;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: relative;
+    z-index: 10;
+    padding: 0 clamp(1.5rem, 5vw, 5rem);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .logo-img {
+    height: 42px;
+    width: auto;
+  }
+
+  .logo-kbdi {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .logo-tagline {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  .header-date {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  /* ── THEME TOGGLE ── */
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+  }
+
+  .theme-toggle {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 2rem;
+    width: 52px;
+    height: 28px;
+    cursor: pointer;
+    position: relative;
+    transition: background 0.3s, border 0.3s;
+    flex-shrink: 0;
+  }
+
+  .theme-toggle::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: var(--accent);
+    transition: transform 0.3s ease;
+  }
+
+  html.light .theme-toggle::before {
+    transform: translateX(24px);
+  }
+
+  .theme-toggle-icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.7rem;
+    pointer-events: none;
+  }
+
+  .icon-moon { left: 6px; }
+  .icon-sun  { right: 5px; }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    z-index: 5;
+    padding: clamp(3rem, 8vw, 6rem) clamp(1.5rem, 5vw, 5rem) clamp(2rem, 5vw, 4rem);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .hero-bg-text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(8rem, 22vw, 22rem);
+    color: rgba(200, 164, 90, 0.04);
+    white-space: nowrap;
+    pointer-events: none;
+    letter-spacing: 0.05em;
+    user-select: none;
+  }
+
+  .hero-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-label::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 5rem);
+    line-height: 1.1;
+    max-width: 720px;
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 1rem;
+    color: var(--muted);
+    max-width: 520px;
+    line-height: 1.7;
+    font-weight: 300;
+  }
+
+  .hero-stats {
+    display: flex;
+    gap: 3rem;
+    margin-top: 3rem;
+  }
+
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.2rem;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .stat-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+  }
+
+  /* ── GRID SECTION ── */
+  .section {
+    position: relative;
+    z-index: 5;
+    padding: clamp(2rem, 5vw, 4rem) clamp(1.5rem, 5vw, 5rem);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+
+  .section-tag {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.85rem;
+    letter-spacing: 0.2em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 2px;
+  }
+
+  .tag-hukum    { background: rgba(200,164,90,0.15); color: var(--hukum); }
+  .tag-sosial   { background: rgba(90,200,122,0.15); color: var(--sosial); }
+  .tag-sejarah  { background: rgba(200,90,90,0.15);  color: var(--sejarah); }
+  .tag-pendidikan { background: rgba(90,143,200,0.15); color: var(--pendidikan); }
+  .tag-astronomi  { background: rgba(160,90,200,0.15); color: var(--astronomi); }
+  .tag-ekonomi    { background: rgba(232,133,74,0.15);  color: var(--ekonomi); }
+  .tag-fisika     { background: rgba(90,200,192,0.15);  color: var(--fisika); }
+  .tag-biologi    { background: rgba(140,200,90,0.15);  color: var(--biologi); }
+  .tag-geografi   { background: rgba(90,184,200,0.15);  color: var(--geografi); }
+  .tag-teknologi  { background: rgba(200,90,154,0.15);  color: var(--teknologi); }
+  .tag-kesehatan  { background: rgba(200,192,90,0.15);  color: var(--kesehatan); }
+
+  .section-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-count {
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* ── CARDS ── */
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .card {
+    background: var(--card);
+    padding: 1.8rem;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 0.8rem;
+    transition: background 0.25s ease;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+
+  .card:hover { background: #1e2330; }
+  .card:hover::before { opacity: 1; }
+
+  .card-hukum::before    { background: var(--hukum); }
+  .card-sosial::before   { background: var(--sosial); }
+  .card-sejarah::before  { background: var(--sejarah); }
+  .card-pendidikan::before { background: var(--pendidikan); }
+  .card-astronomi::before  { background: var(--astronomi); }
+  .card-ekonomi::before    { background: var(--ekonomi); }
+  .card-fisika::before     { background: var(--fisika); }
+  .card-biologi::before    { background: var(--biologi); }
+  .card-geografi::before   { background: var(--geografi); }
+  .card-teknologi::before  { background: var(--teknologi); }
+  .card-kesehatan::before  { background: var(--kesehatan); }
+
+  .card-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 0.9rem;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+  }
+
+  .card-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    line-height: 1.4;
+    color: var(--text);
+    flex: 1;
+  }
+
+  .card-arrow {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--muted);
+    transition: color 0.2s, gap 0.2s;
+    margin-top: 0.5rem;
+  }
+
+  .card:hover .card-arrow {
+    gap: 0.7rem;
+    color: var(--accent);
+  }
+
+  .card-arrow svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* ── FEATURED ── */
+  .featured-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+  }
+
+  .card-featured {
+    grid-column: 1 / -1;
+    padding: 2.5rem 2rem;
+  }
+
+  .card-featured .card-title {
+    font-size: 1.5rem;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    position: relative;
+    z-index: 5;
+    padding: 2.5rem clamp(1.5rem, 5vw, 5rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+  }
+
+  .footer-copy {
+    font-size: 0.72rem;
+    color: var(--muted);
+    letter-spacing: 0.05em;
+  }
+
+  /* ── ANIMATIONS ── */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    animation: fadeUp 0.7s ease forwards;
+  }
+
+  @keyframes fadeUp {
+    to { opacity: 1; transform: none; }
+  }
+
+  .fade-in:nth-child(1) { animation-delay: 0.1s; }
+  .fade-in:nth-child(2) { animation-delay: 0.2s; }
+  .fade-in:nth-child(3) { animation-delay: 0.3s; }
+  .fade-in:nth-child(4) { animation-delay: 0.4s; }
+  .fade-in:nth-child(5) { animation-delay: 0.5s; }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (max-width: 640px) {
+    .featured-grid { grid-template-columns: 1fr; }
+    .card-featured { grid-column: auto; }
+    .hero-stats { gap: 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="logo fade-in">
+    <img src="https://edukbdi.github.io/logo_KBDI/kbdi_trans.png" alt="KBDI Logo" class="logo-img">
+    <div>
+      <span class="logo-kbdi">KBDI</span><br>
+      <span class="logo-tagline">Komunitas Belajar Daring Indonesia</span>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="header-date fade-in" id="tgl"></div>
+    <button class="theme-toggle fade-in" id="themeToggle" title="Ganti tema">
+      <span class="theme-toggle-icon icon-moon">🌙</span>
+      <span class="theme-toggle-icon icon-sun">☀️</span>
+    </button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-text">KBDI</div>
+  <div class="hero-label fade-in">Portal Edukasi</div>
+  <h1 class="hero-title fade-in">
+    Analisis Mendalam,<br><em>Berbasis Fakta</em>
+  </h1>
+  <p class="hero-desc fade-in">
+    Portal artikel edukasi yang menyajikan kajian hukum, sosial, sejarah, pendidikan, astronomi, ekonomi, fisika, biologi, geografi, teknologi, dan kesehatan dengan pendekatan ilmiah populer untuk pembaca Indonesia.
+  </p>
+  <div class="hero-stats fade-in">
+    <div class="stat-item">
+      <span class="stat-num">08</span>
+      <span class="stat-label">Artikel</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">11</span>
+      <span class="stat-label">Kategori</span>
+    </div>
+    <div class="stat-item">
+      <span class="stat-num">2026</span>
+      <span class="stat-label">Aktif Sejak</span>
+    </div>
+  </div>
+</section>
+
+<!-- HUKUM & POLITIK -->
+<section class="section reveal">
+  <div class="section-header">
+    <span class="section-tag tag-hukum">⚖ Hukum & Politik</span>
+    <div class="section-line"></div>
+    <span class="section-count">2 Artikel</span>
+  </div>
+  <div class="cards-grid">
+    <a href="https://edukbdi.github.io/BantuanAsingBencanaSumatera/" class="card card-hukum">
+      <span class="card-num">01 — Hukum & Politik</span>
+      <h2 class="card-title">Bantuan Asing Saat Bencana Sumatera: Meluruskan Informasi tentang Bantuan Asing untuk Bencana Sumatera</h2>
+      <div class="card-arrow">
+        Baca Artikel
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+    <a href="https://edukbdi.github.io/Peacekeeper/" class="card card-hukum">
+      <span class="card-num">02 — Hukum & Politik</span>
+      <h2 class="card-title">Pasukan Penjaga Perdamaian PBB: Fungsi, Misi, dan Kesalahpahaman Publik</h2>
+      <div class="card-arrow">
+        Baca Artikel
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- SOSIAL -->
+<section class="section reveal">
+  <div class="section-header">
+    <span class="section-tag tag-sosial">◈ Sosial</span>
+    <div class="section-line"></div>
+    <span class="section-count">2 Artikel</span>
+  </div>
+  <div class="cards-grid">
+    <a href="https://edukbdi.github.io/beritanegatif/" class="card card-sosial">
+      <span class="card-num">01 — Sosial</span>
+      <h2 class="card-title">Mengapa Berita Di Indonesia Selalu Negatif? Apa Karena Indonesia Paling Buruk Daripada Negara Lain?</h2>
+      <div class="card-arrow">
+        Baca Artikel
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+    <a href="https://edukbdi.github.io/Echo-Chamber/" class="card card-sosial">
+      <span class="card-num">02 — Sosial</span>
+      <h2 class="card-title">Echo Chamber : Ketika Dunia Digital Memantulkan Hanya Yang Ingin Kita Dengar Dan Diam-diam Membentuk Siapa Kita.</h2>
+      <div class="card-arrow">
+        Baca Artikel
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- SEJARAH -->
+<section class="section reveal">
+  <div class="section-header">
+    <span class="section-tag tag-sejarah">⊕ Sejarah</span>
+    <div class="section-line"></div>
+    <span class="section-count">4 Artikel</span>
+  </div>
+  <div class="cards-grid">
+    <a href="https://edukbdi.github.io/gelarandi/" class="card card-sosial">
+  <span class="card-num">01 — Sejarah</span>
+  <h2 class="card-title">Sejarah Gelar Andi: Benarkah Gelar Dari Sulawesi?</h2>
+  <div class="card-arrow">
+    Baca Artikel
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+  </div>
+</a>
+    <a href="https://edukbdi.github.io/Kisah-Perjalanan-Ferdinand-Magellan/" class="card card-sejarah">
+      <span class="card-num">02 — Sejarah</span>
+      <h2 class="card-title">Ekspedisi Ferdinand Magellan: Kisah Pelayaran Mengelilingi Bumi Pertama</h2>
+      <div class="card-arrow">
+        Baca Artikel
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+    <a href="https://edukbdi.github.io/April-Mop-1946/" class="card card-sejarah">
+      <span class="card-num">03 — Sejarah</span>
+      <h2 class="card-title">Tsunami Kepulauan Aleutian 1946: Tragedi di Balik "April Fools' Day"</h2>
+      <div class="card-arrow">
+        Baca Artikel
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+    <a href="https://edukbdi.github.io/deandles/" class="card card-sejarah">
+      <span class="card-num">04 — Sejarah</span>
+      <h2 class="card-title">Benarkah Deandles Difitnah oleh Narasi Sejarah Indonesia?</h2>
+      <div class="card-arrow">
+        Baca Artikel
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- PENDIDIKAN -->
+<section class="section reveal">
+  <div class="section-header">
+    <span class="section-tag tag-pendidikan">✦ Pendidikan</span>
+    <div class="section-line"></div>
+    <span class="section-count">1 Artikel</span>
+  </div>
+  <div class="cards-grid">
+    <a href="https://edukbdi.github.io/gaji-guru-vs-mbg/" class="card card-pendidikan">
+      <span class="card-num">01 — Pendidikan</span>
+      <h2 class="card-title">Gaji Guru vs. Makan Bergizi Gratis: Mana Yang Lebih Baik?</h2>
+      <div class="card-arrow">
+        Baca Artikel
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- ASTRONOMI -->
+<section class="section reveal">
+  <div class="section-header">
+    <span class="section-tag tag-astronomi">✧ Astronomi</span>
+    <div class="section-line"></div>
+    <span class="section-count">1 Artikel</span>
+  </div>
+  <div class="cards-grid">
+    <a href="https://edukbdi.github.io/pendaratan-manusia-ke-bulan/" class="card card-astronomi">
+      <span class="card-num">01 — Astronomi</span>
+      <h2 class="card-title">Pendaratan Manusia ke Bulan: Fakta Ilmiah vs. Teori Konspirasi</h2>
+      <div class="card-arrow">
+        Baca Artikel
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </div>
+    </a>
+  </div>
+</section>
+
+<!-- EKONOMI & BISNIS -->
+<section class="section reveal">
+  <div class="section-header">
+    <span class="section-tag tag-ekonomi">$ Ekonomi &amp; Bisnis</span>
+    <div class="section-line"></div>
+    <span class="section-count">0 Artikel</span>
+  </div>
+  <div class="cards-grid" style="background:none; border: 1px dashed var(--border); padding: 2rem; text-align:center;">
+    <p style="color:var(--muted); font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; padding: 1.5rem;">Segera Hadir</p>
+  </div>
+</section>
+
+<!-- FISIKA -->
+<section class="section reveal">
+  <div class="section-header">
+    <span class="section-tag tag-fisika">⚛ Fisika</span>
+    <div class="section-line"></div>
+    <span class="section-count">0 Artikel</span>
+  </div>
+  <div class="cards-grid" style="background:none; border: 1px dashed var(--border); padding: 2rem; text-align:center;">
+    <p style="color:var(--muted); font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; padding: 1.5rem;">Segera Hadir</p>
+  </div>
+</section>
+
+<!-- BIOLOGI -->
+<section class="section reveal">
+  <div class="section-header">
+    <span class="section-tag tag-biologi">🌿 Biologi</span>
+    <div class="section-line"></div>
+    <span class="section-count">0 Artikel</span>
+  </div>
+  <div class="cards-grid" style="background:none; border: 1px dashed var(--border); padding: 2rem; text-align:center;">
+    <p style="color:var(--muted); font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; padding: 1.5rem;">Segera Hadir</p>
+  </div>
+</section>
+
+<!-- GEOGRAFI -->
+<section class="section reveal">
+  <div class="section-header">
+    <span class="section-tag tag-geografi">🌏 Geografi</span>
+    <div class="section-line"></div>
+    <span class="section-count">0 Artikel</span>
+  </div>
+  <div class="cards-grid" style="background:none; border: 1px dashed var(--border); padding: 2rem; text-align:center;">
+    <p style="color:var(--muted); font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; padding: 1.5rem;">Segera Hadir</p>
+  </div>
+</section>
+
+<!-- TEKNOLOGI -->
+<section class="section reveal">
+  <div class="section-header">
+    <span class="section-tag tag-teknologi">⌨ Teknologi</span>
+    <div class="section-line"></div>
+    <span class="section-count">0 Artikel</span>
+  </div>
+  <div class="cards-grid" style="background:none; border: 1px dashed var(--border); padding: 2rem; text-align:center;">
+    <p style="color:var(--muted); font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; padding: 1.5rem;">Segera Hadir</p>
+  </div>
+</section>
+
+<!-- KESEHATAN -->
+<section class="section reveal">
+  <div class="section-header">
+    <span class="section-tag tag-kesehatan">✚ Kesehatan</span>
+    <div class="section-line"></div>
+    <span class="section-count">0 Artikel</span>
+  </div>
+  <div class="cards-grid" style="background:none; border: 1px dashed var(--border); padding: 2rem; text-align:center;">
+    <p style="color:var(--muted); font-size:0.85rem; letter-spacing:0.1em; text-transform:uppercase; padding: 1.5rem;">Segera Hadir</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <span class="footer-brand">KBDI</span>
+  <span class="footer-copy">© 2026 Komunitas Belajar Daring Indonesia — edukbdi.github.io</span>
+</footer>
+
+<script>
+  // Tanggal hari ini
+  const opts = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+  document.getElementById('tgl').textContent = new Date().toLocaleDateString('id-ID', opts);
+
+  // Theme toggle
+  const html = document.documentElement;
+  const toggleBtn = document.getElementById('themeToggle');
+  const saved = localStorage.getItem('kbdi-theme');
+  if (saved === 'light') html.classList.add('light');
+
+  toggleBtn.addEventListener('click', () => {
+    html.classList.toggle('light');
+    localStorage.setItem('kbdi-theme', html.classList.contains('light') ? 'light' : 'dark');
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); io.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
