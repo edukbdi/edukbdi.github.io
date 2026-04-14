@@ -1,0 +1,127 @@
+<!-- KBDI Global Footer — https://edukbdi.github.io/footer.html -->
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap');
+
+  #kbdi-footer {
+    position: relative;
+    z-index: 5;
+    padding: 2.5rem clamp(1.5rem, 5vw, 5rem);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-family: 'DM Sans', 'Segoe UI', sans-serif;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    background: transparent;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box;
+  }
+
+  /* ── LIGHT MODE ── */
+  #kbdi-footer.kbdi-light {
+    border-top: 1px solid rgba(0,0,0,0.1);
+  }
+
+  /* ── BRAND ── */
+  #kbdi-footer .kbdi-footer-brand {
+    font-family: 'Bebas Neue', 'Impact', sans-serif;
+    font-size: 1.4rem;
+    color: #e87722;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+  }
+
+  /* ── DISCORD ── */
+  #kbdi-footer .kbdi-footer-discord {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    text-decoration: none;
+    transition: opacity 0.2s, transform 0.2s;
+  }
+
+  #kbdi-footer .kbdi-footer-discord:hover {
+    opacity: 0.8;
+    transform: translateY(-1px);
+  }
+
+  #kbdi-footer .kbdi-footer-discord img {
+    height: 28px;
+    width: auto;
+  }
+
+  #kbdi-footer .kbdi-footer-discord-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+  }
+
+  #kbdi-footer .kbdi-footer-discord-label {
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #7289da;
+    font-weight: 500;
+  }
+
+  #kbdi-footer .kbdi-footer-discord-sub {
+    font-size: 0.62rem;
+    color: #7a7f8e;
+    letter-spacing: 0.08em;
+  }
+
+  /* ── COPYRIGHT ── */
+  #kbdi-footer .kbdi-footer-copy {
+    font-size: 0.72rem;
+    color: #7a7f8e;
+    letter-spacing: 0.05em;
+  }
+
+  #kbdi-footer.kbdi-light .kbdi-footer-copy {
+    color: #888;
+  }
+
+  #kbdi-footer.kbdi-light .kbdi-footer-discord-sub {
+    color: #888;
+  }
+</style>
+
+<footer id="kbdi-footer">
+  <a href="https://edukbdi.github.io/" class="kbdi-footer-brand">KBDI</a>
+  <a href="https://discord.gg/63S9tMaa" target="_blank" rel="noopener" class="kbdi-footer-discord">
+    <img src="https://edukbdi.github.io/foto/logodiscord.png" alt="Discord KBDI">
+    <div class="kbdi-footer-discord-text">
+      <span class="kbdi-footer-discord-label">Gabung Discord</span>
+      <span class="kbdi-footer-discord-sub">Komunitas KBDI</span>
+    </div>
+  </a>
+  <span class="kbdi-footer-copy">© 2026 Komunitas Belajar Daring Indonesia — edukbdi.github.io</span>
+</footer>
+
+<script>
+  (function() {
+    var footer = document.getElementById('kbdi-footer');
+
+    // Sinkronisasi tema
+    function syncTheme() {
+      var isLight = localStorage.getItem('kbdi-theme') === 'light';
+      footer.classList.toggle('kbdi-light', isLight);
+    }
+
+    syncTheme();
+
+    // Dengarkan perubahan tema dari toggle header
+    window.addEventListener('storage', syncTheme);
+
+    // Sinkronisasi langsung jika toggle diklik di halaman yang sama
+    document.addEventListener('click', function(e) {
+      if (e.target.closest('#kbdiThemeToggle') || e.target.closest('.kbdi-toggle')) {
+        setTimeout(syncTheme, 50);
+      }
+      if (e.target.closest('#themeToggle')) {
+        setTimeout(syncTheme, 50);
+      }
+    });
+  })();
+</script>
